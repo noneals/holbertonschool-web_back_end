@@ -33,14 +33,16 @@ class Server:
         """
         if self.__indexed_dataset is None:
             dataset = self.dataset()
-            truncated_dataset = dataset[:1000]
             self.__indexed_dataset = {
-                i: truncated_dataset[i] for i in range(len(truncated_dataset))
+                i: dataset[i] for i in range(len(dataset))
             }
         return self.__indexed_dataset
 
     def get_hyper_index(self, index: int = None, page_size: int = 10) -> Dict:
         """Get page of dataset with hypermedia pagination"""
+        if index is None:
+            index = 0
+
         assert isinstance(index, int) and index >= 0
         assert isinstance(page_size, int) and page_size > 0
 
