@@ -4,6 +4,7 @@
 from typing import List
 from typing import Tuple
 import csv
+import math
 
 
 def index_range(page: int, page_size: int) -> Tuple[int, int]:
@@ -52,19 +53,8 @@ class Server:
 
         dataset = self.dataset()
         start_index, end_index = index_range(page, page_size)
-
-        if start_index >= len(dataset):
-            return {
-                'page_size': 0,
-                'page': page,
-                'data': [],
-                'next_page': None,
-                'prev_page': None,
-                'total_pages': 0
-            }
-
         data = dataset[start_index:end_index]
-        total_pages = len(dataset) // page_size + (len(dataset) % page_size > 0)
+        total_pages = math.ceil(len(dataset) / page_size)
         next_page = page + 1 if page < total_pages else None
         prev_page = page - 1 if page > 1 else None
 
