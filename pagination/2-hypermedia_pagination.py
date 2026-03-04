@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""1-async_comprehension.py"""
+"""2-hypermedia_pagination.py"""
 
 from typing import List
 from typing import Tuple
