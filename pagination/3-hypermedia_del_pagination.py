@@ -4,13 +4,11 @@ Deletion-resilient hypermedia pagination
 """
 
 import csv
-from typing import List
-from typing import Dict
+from typing import Any, Dict, List, Optional
 
 
 class Server:
-    """Server class to paginate a database of popular baby names.
-    """
+    """Paginate a dataset of popular baby names with deletion resilience."""
     DATA_FILE = "Popular_Baby_Names.csv"
 
     def __init__(self):
@@ -18,8 +16,7 @@ class Server:
         self.__indexed_dataset = None
 
     def dataset(self) -> List[List]:
-        """Cached dataset
-        """
+        """Return the cached dataset, loading it from CSV on first access."""
         if self.__dataset is None:
             with open(self.DATA_FILE) as f:
                 reader = csv.reader(f)
@@ -29,8 +26,7 @@ class Server:
         return self.__dataset
 
     def indexed_dataset(self) -> Dict[int, List]:
-        """Dataset indexed by sorting position, starting at 0
-        """
+        """Return the dataset indexed by original row position."""
         if self.__indexed_dataset is None:
             dataset = self.dataset()
             self.__indexed_dataset = {
@@ -38,8 +34,12 @@ class Server:
             }
         return self.__indexed_dataset
 
-    def get_hyper_index(self, index: int = None, page_size: int = 10) -> Dict:
-        """Get page of dataset with hypermedia pagination"""
+    def get_hyper_index(
+        self,
+        index: Optional[int] = None,
+        page_size: int = 10
+    ) -> Dict[str, Any]:
+        """Return a deletion-resilient page starting from the provided index."""
         if index is None:
             index = 0
 
@@ -52,7 +52,7 @@ class Server:
 
         data = []
         current_index = index
-       
+
         while len(data) < page_size and current_index <= max_index:
             if current_index in dataset:
                 data.append(dataset[current_index])

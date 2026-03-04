@@ -1,30 +1,27 @@
 #!/usr/bin/env python3
-"""2-hypermedia_pagination.py"""
+"""Implement hypermedia pagination over the baby names dataset."""
 
-from typing import List
-from typing import Tuple
+from typing import Any, Dict, List, Tuple
 import csv
 import math
 
 
 def index_range(page: int, page_size: int) -> Tuple[int, int]:
-    """Returns a tuple of size two."""
+    """Return the start and end indexes for a given page and page size."""
     start_index = (page - 1) * page_size
     end_index = start_index + page_size
     return (start_index, end_index)
 
 
 class Server:
-    """Server class to paginate a database of popular baby names.
-    """
+    """Paginate a dataset of popular baby names."""
     DATA_FILE = "Popular_Baby_Names.csv"
 
     def __init__(self):
         self.__dataset = None
 
     def dataset(self) -> List[List]:
-        """Cached dataset
-        """
+        """Return the cached dataset, loading it from CSV on first access."""
         if self.__dataset is None:
             with open(self.DATA_FILE) as f:
                 reader = csv.reader(f)
@@ -34,7 +31,7 @@ class Server:
         return self.__dataset
 
     def get_page(self, page: int = 1, page_size: int = 10) -> List[List]:
-        """Get page of dataset"""
+        """Return one page of data for the given page number and page size."""
         assert isinstance(page, int) and page > 0
         assert isinstance(page_size, int) and page_size > 0
 
@@ -45,9 +42,9 @@ class Server:
             return []
 
         return dataset[start_index:end_index]
-    
-    def get_hyper(self, page: int = 1, page_size: int = 10) -> dict:
-        """Get page of dataset with hypermedia pagination"""
+
+    def get_hyper(self, page: int = 1, page_size: int = 10) -> Dict[str, Any]:
+        """Return pagination data enriched with hypermedia metadata."""
         assert isinstance(page, int) and page > 0
         assert isinstance(page_size, int) and page_size > 0
 
