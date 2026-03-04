@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""12-log_stats.py"""
+"""Display Nginx request statistics stored in MongoDB."""
 from pymongo import MongoClient
 
 
 def log():
-    """Connect to MongoDB"""
-    client = MongoClient('mongodb://localhost:27017')
+    """Print log counts by HTTP method and status checks."""
+    client = MongoClient()
     db = client.logs
     collection = db.nginx
     total_logs = collection.count_documents({})
