@@ -5,7 +5,7 @@ from pymongo import MongoClient
 
 def log_stats() -> None:
     """Display total logs, per-method counts, and GET /status count."""
-    client = MongoClient()
+    client = MongoClient('mongodb://127.0.0.1:27017')
     db_nginx = client.logs.nginx
     methods = ["GET", "POST", "PUT", "PATCH", "DELETE"]
 
