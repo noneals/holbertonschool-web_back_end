@@ -1,4 +1,4 @@
-const readDatabase = require('../utils');
+import readDatabase from '../utils';
 
 class StudentsController {
   static async getAllStudents(req, res) {
@@ -21,7 +21,6 @@ class StudentsController {
   static async getAllStudentsByMajor(req, res) {
     const { major } = req.params;
 
-    // Vérifier que le major est valide
     if (major !== 'CS' && major !== 'SWE') {
       return res.status(500).send('Major parameter must be CS or SWE');
     }
@@ -36,4 +35,4 @@ class StudentsController {
   }
 }
 
-module.exports = StudentsController;
+export default StudentsController;

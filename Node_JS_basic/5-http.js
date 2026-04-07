@@ -7,13 +7,12 @@ const app = http.createServer((req, res) => {
     res.end('Hello Holberton School!');
   } else if (req.url === '/students') {
     res.writeHead(200, { 'Content-Type': 'text/plain' });
-    res.write('This is the list of our students\n');
     countStudents(process.argv[2])
       .then((result) => {
-        res.end(result); // Envoie le résultat retourné par countStudents
+        res.end(`This is the list of our students\n${result}`);
       })
       .catch(() => {
-        res.writeHead(500, { 'Content-Type': 'text/plain' });
+        res.statusCode = 500;
         res.end('Cannot load the database');
       });
   } else {
